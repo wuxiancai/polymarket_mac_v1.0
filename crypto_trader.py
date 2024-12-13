@@ -995,7 +995,7 @@ class CryptoTrader:
         """处理 MetaMask 扩展弹窗的键盘操作"""
         try:
             # 直接等待一段时间让MetaMask扩展弹窗出现
-            time.sleep(0.5)  # 给扩展弹窗足够的时间显示
+            time.sleep(2)  # 给扩展弹窗足够的时间显示
             
             # 模拟键盘操作序列
             # 1. 按6次TAB
