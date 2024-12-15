@@ -1422,8 +1422,9 @@ class CryptoTrader:
             
             button = WebDriverWait(self.driver, 10).until(
                 EC.element_to_be_clickable((By.XPATH, '//*[@id="event-layout-with-side-nav"]/div[2]/div/div[1]/div/div[1]/div/div/div[1]'))
+            )
             # //div[@class="c-dhzjXW c-gvfudb c-gvfudb-bQykhQ-isSelected-true"]
-            
+
             self.driver.execute_script("arguments[0].click();", button)
             self.update_status("已点击 Buy 按钮")
         except Exception as e:
