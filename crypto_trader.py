@@ -1668,8 +1668,8 @@ class CryptoTrader:
                     time.sleep(0.5)
                     self._handle_metamask_popup()
                     """因为网站的原因，必须刷新多次页面，否则会报错，故不能删除或者合并以下等待和刷新代码"""
-                    # 等待3秒
-                    time.sleep(3)
+                    # 等待6秒
+                    time.sleep(6)
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
@@ -1726,8 +1726,8 @@ class CryptoTrader:
                     time.sleep(1)
                     self._handle_metamask_popup()
                     """因为网站的原因，必须刷新多次页面，否则会报错，故不能删除或者合并以下等待和刷新代码"""
-                    # 等待3秒
-                    time.sleep(3)
+                    # 等待6秒
+                    time.sleep(6)
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
@@ -1821,8 +1821,8 @@ class CryptoTrader:
                     time.sleep(1)
                     self._handle_metamask_popup()
                     """因为网站的原因，必须刷新多次页面，否则会报错，故不能删除或者合并以下等待和刷新代码"""
-                    # 等待3秒
-                    time.sleep(3)
+                    # 等待6秒
+                    time.sleep(6)
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
@@ -1866,8 +1866,8 @@ class CryptoTrader:
                     time.sleep(1)
                     self._handle_metamask_popup()
                     """因为网站的原因，必须刷新多次页面，否则会报错，故不能删除或者合并以下等待和刷新代码"""
-                    # 等待3秒
-                    time.sleep(3)
+                    # 等待6秒
+                    time.sleep(6)
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
@@ -1952,8 +1952,8 @@ class CryptoTrader:
                     time.sleep(1)
                     self._handle_metamask_popup()
                     """因为网站的原因，必须刷新多次页面，否则会报错，故不能删除或者合并以下等待和刷新代码"""
-                    # 等待3秒
-                    time.sleep(3)
+                    # 等待6秒
+                    time.sleep(6)
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
@@ -1996,8 +1996,8 @@ class CryptoTrader:
                     time.sleep(1)
                     self._handle_metamask_popup()
                     """因为网站的原因，必须刷新多次页面，否则会报错，故不能删除或者合并以下等待和刷新代码"""
-                    # 等待3秒
-                    time.sleep(3)
+                    # 等待6秒
+                    time.sleep(6)
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
@@ -2079,8 +2079,8 @@ class CryptoTrader:
                     time.sleep(1)
                     self._handle_metamask_popup()
                     """因为网站的原因，必须刷新多次页面，否则会报错，故不能删除或者合并以下等待和刷新代码"""
-                    # 等待3秒
-                    time.sleep(3)
+                    # 等待6秒
+                    time.sleep(6)
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
@@ -2123,8 +2123,8 @@ class CryptoTrader:
                     self._handle_metamask_popup()
 
                     """因为网站的原因，必须刷新多次页面，否则会报错，故不能删除或者合并以下等待和刷新代码"""
-                    # 等待3秒
-                    time.sleep(3)
+                    # 等待6秒
+                    time.sleep(6)
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
@@ -2207,8 +2207,8 @@ class CryptoTrader:
                     self._handle_metamask_popup()
 
                     """因为网站的原因，必须刷新多次页面，否则会报错，故不能删除或者合并以下等待和刷新代码"""
-                    # 等待3秒
-                    time.sleep(3)
+                    # 等待6秒
+                    time.sleep(6)
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
@@ -2252,8 +2252,8 @@ class CryptoTrader:
                     time.sleep(1)
                     self._handle_metamask_popup()
 
-                    # 等待3秒
-                    time.sleep(3)
+                    # 等待6秒
+                    time.sleep(6)
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
@@ -2342,8 +2342,8 @@ class CryptoTrader:
                     self.buy_confirm_button.invoke()
                     time.sleep(1)
                     self._handle_metamask_popup()
-                    # 等待3秒
-                    time.sleep(3)
+                    # 等待6秒
+                    time.sleep(6)
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
@@ -2385,8 +2385,8 @@ class CryptoTrader:
                     time.sleep(1)
                     self._handle_metamask_popup()
 
-                    # 等待3秒
-                    time.sleep(3)
+                    # 等待6秒
+                    time.sleep(6)
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
@@ -2462,13 +2462,13 @@ class CryptoTrader:
                     # 点击Sell-卖出按钮
                     self.sell_profit_button.invoke()
                     """因为网站的原因，必须刷新多次页面，否则会报错，故不能删除或者合并以下等待和刷新代码"""
-                    # 等待5秒
+                    # 等待6秒
+                    time.sleep(6)
+                    self.driver.refresh()
+                    # 等待3秒
                     time.sleep(3)
                     self.driver.refresh()
-                    # 等待5秒
-                    time.sleep(3)
-                    self.driver.refresh()
-                    # 等待5秒
+                    # 等待3秒
                     time.sleep(3)
                     self.driver.refresh()
                     # 等待5秒
@@ -2557,13 +2557,13 @@ class CryptoTrader:
                     self.sell_profit_button.invoke()
                     
                     """因为网站的原因，必须刷新多次页面，否则会报错，故不能删除或者合并以下等待和刷新代码"""
-                    # 等待5秒
+                    # 等待6秒
+                    time.sleep(6)
+                    self.driver.refresh()
+                    # 等待3秒
                     time.sleep(3)
                     self.driver.refresh()
-                    # 等待5秒
-                    time.sleep(3)
-                    self.driver.refresh()
-                    # 等待5秒
+                    # 等待3秒
                     time.sleep(3)
                     self.driver.refresh()
                     # 等待5秒
