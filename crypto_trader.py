@@ -24,6 +24,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.header import Header
 import socket
+import sys
 
 
 class Logger:
@@ -1568,7 +1569,6 @@ class CryptoTrader:
             
             # 清空输入框
             amount_input.clear()
-            
             # 根据按钮文本获取对应的金额
             amount = "0.0"
             if button_text == "Amount-Yes0":
@@ -1617,12 +1617,10 @@ class CryptoTrader:
                 no5_amount_entry = self.no_frame.grid_slaves(row=11, column=1)[0]
                 amount = no5_amount_entry.get()
                 self.saved_amounts['No5'] = float(amount)  # 更新saved_amounts
-            
             # 输入金额
             amount_input.send_keys(str(amount))
             
             self.update_status(f"已在Amount输入框输入: {amount}")
-            
         except Exception as e:
             self.logger.error(f"Amount操作失败: {str(e)}")
             self.update_status(f"Amount操作失败: {str(e)}")
@@ -1632,7 +1630,6 @@ class CryptoTrader:
         try:
             if not self.driver:
                 raise Exception("浏览器连接丢失")
-                
             # 获取当前Yes和No价格
             prices = self.driver.execute_script("""
                 function getPrices() {
@@ -1658,34 +1655,27 @@ class CryptoTrader:
             if prices['yes'] is not None and prices['no'] is not None:
                 yes_price = float(prices['yes']) / 100
                 no_price = float(prices['no']) / 100
-                
                 # 获取Yes0和No0的目标价格
                 yes0_target = float(self.yes_price_entry.get())
                 no0_target = float(self.no_price_entry.get())
-                
                 # 检查Yes0价格匹配
                 if abs(yes0_target - yes_price) < 0.0001 and yes0_target > 0:
                     self.logger.info("Yes 0价格匹配，执行自动交易")
-                    
                     # 执行现有的交易操作
                     self.amount_button.event_generate('<Button-1>')
                     time.sleep(0.5)
                     self.buy_confirm_button.invoke()
                     time.sleep(0.5)
                     self._handle_metamask_popup()
-
                     """因为网站的原因，必须刷新多次页面，否则会报错，故不能删除或者合并以下等待和刷新代码"""
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
@@ -1703,10 +1693,8 @@ class CryptoTrader:
                     # 再次刷新页面
                     self.driver.refresh()
                     time.sleep(3)
-
                     # 买了 YES 后也要刷新页面
                     self.driver.refresh()
-
                     # 重置Yes0和No0价格为0.00
                     self.yes_price_entry.delete(0, tk.END)
                     self.yes_price_entry.insert(0, "0.00")
@@ -1726,11 +1714,9 @@ class CryptoTrader:
                     no6_price_entry.insert(0, "0.84")
                     # 增加等待 1秒
                     time.sleep(1)
-                    
                 # 检查No0价格匹配
                 elif abs(no0_target - no_price) < 0.0001 and no0_target > 0:
                     self.logger.info("No 0价格匹配，执行自动交易")
-                    
                     # 执行现有的交易操作
                     self.buy_no_button.invoke()
                     time.sleep(0.5)
@@ -1739,19 +1725,15 @@ class CryptoTrader:
                     self.buy_confirm_button.invoke()
                     time.sleep(1)
                     self._handle_metamask_popup()
-
                     """因为网站的原因，必须刷新多次页面，否则会报错，故不能删除或者合并以下等待和刷新代码"""
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
@@ -1766,10 +1748,8 @@ class CryptoTrader:
                         amount=float(self.no_amount_entry.get()),
                         trade_count=self.trade_count
                     )
-                    
                     # 买了 NO 后要刷新页面
                     self.driver.refresh()
-
                     # 重置Yes0和No0价格为0.00
                     self.yes_price_entry.delete(0, tk.END)
                     self.yes_price_entry.insert(0, "0.00")
@@ -1826,36 +1806,29 @@ class CryptoTrader:
             if prices['yes'] is not None and prices['no'] is not None:
                 yes_price = float(prices['yes']) / 100
                 no_price = float(prices['no']) / 100
-                
                 # 获Yes1和No1的价格输入框
                 yes1_price_entry = self.yes_frame.grid_slaves(row=2, column=1)[0]
                 no1_price_entry = self.no_frame.grid_slaves(row=2, column=1)[0]
                 yes1_target = float(yes1_price_entry.get())
                 no1_target = float(no1_price_entry.get())
-                
                 # 检查Yes1价格匹配
                 if abs(yes1_target - yes_price) < 0.0001 and yes1_target > 0:
                     self.logger.info("Yes 1价格匹配，执行自动交易")
-                    
                     # 执行现有的交易操作
                     self.amount_yes1_button.event_generate('<Button-1>')
                     time.sleep(0.5)
                     self.buy_confirm_button.invoke()
                     time.sleep(1)
                     self._handle_metamask_popup()
-
                     """因为网站的原因，必须刷新多次页面，否则会报错，故不能删除或者合并以下等待和刷新代码"""
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
@@ -1881,11 +1854,9 @@ class CryptoTrader:
                         amount=0.00,
                         trade_count=self.trade_count
                     )
-                    
                 # 检查No1价格匹配
                 elif abs(no1_target - no_price) < 0.0001 and no1_target > 0:
-                    self.logger.info("No 1价格匹配，执行自动交易")
-                    
+                    self.logger.info("No 1价格匹配，执行自动交易")  
                     # 执行现有的交易操作
                     self.buy_no_button.invoke()
                     time.sleep(0.5)
@@ -1894,19 +1865,15 @@ class CryptoTrader:
                     self.buy_confirm_button.invoke()
                     time.sleep(1)
                     self._handle_metamask_popup()
-
                     """因为网站的原因，必须刷新多次页面，否则会报错，故不能删除或者合并以下等待和刷新代码"""
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
@@ -1922,8 +1889,6 @@ class CryptoTrader:
                     yes2_price_entry = self.yes_frame.grid_slaves(row=4, column=1)[0]
                     yes2_price_entry.delete(0, tk.END)
                     yes2_price_entry.insert(0, "0.55")
-                    
-                    
                     # 增加交易次数
                     self.trade_count += 1
                     # 发送交易邮件
@@ -1980,26 +1945,21 @@ class CryptoTrader:
                 # 检查Yes2价格匹配
                 if abs(yes2_target - yes_price) < 0.0001 and yes2_target > 0:
                     self.logger.info("Yes 2价格匹配，执行自动交易")
-                    
                     # 执行交易操作
                     self.amount_yes2_button.event_generate('<Button-1>')
                     time.sleep(0.5)
                     self.buy_confirm_button.invoke()
                     time.sleep(1)
                     self._handle_metamask_popup()
-
                     """因为网站的原因，必须刷新多次页面，否则会报错，故不能删除或者合并以下等待和刷新代码"""
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
@@ -2015,9 +1975,6 @@ class CryptoTrader:
                     no3_price_entry = self.no_frame.grid_slaves(row=6, column=1)[0]
                     no3_price_entry.delete(0, tk.END)
                     no3_price_entry.insert(0, "0.55")
-                    
-                   
-                    
                     # 增加交易次数
                     self.trade_count += 1
                     # 发送交易邮件
@@ -2027,11 +1984,9 @@ class CryptoTrader:
                         amount=0.00,
                         trade_count=self.trade_count
                     )
-                    
                 # 检查No2价格匹配
                 elif abs(no2_target - no_price) < 0.0001 and no2_target > 0:
                     self.logger.info("No 2价格匹配，执行自动交易")
-                    
                     # 执行交易操作
                     self.buy_no_button.invoke()
                     time.sleep(0.5)
@@ -2040,23 +1995,18 @@ class CryptoTrader:
                     self.buy_confirm_button.invoke()
                     time.sleep(1)
                     self._handle_metamask_popup()
-
                     """因为网站的原因，必须刷新多次页面，否则会报错，故不能删除或者合并以下等待和刷新代码"""
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     
                     # 重置Yes2和No2价格为0.00
@@ -2114,13 +2064,11 @@ class CryptoTrader:
             if prices['yes'] is not None and prices['no'] is not None:
                 yes_price = float(prices['yes']) / 100
                 no_price = float(prices['no']) / 100
-                
                 # 获取Yes3和No3的价格输入框
                 yes3_price_entry = self.yes_frame.grid_slaves(row=6, column=1)[0]
                 no3_price_entry = self.no_frame.grid_slaves(row=6, column=1)[0]
                 yes3_target = float(yes3_price_entry.get())
                 no3_target = float(no3_price_entry.get())
-                
                 # 检查Yes3价格匹配
                 if abs(yes3_target - yes_price) < 0.0001 and yes3_target > 0:
                     self.logger.info("Yes 3价格匹配，执行自动交易")
@@ -2130,36 +2078,28 @@ class CryptoTrader:
                     self.buy_confirm_button.invoke()
                     time.sleep(1)
                     self._handle_metamask_popup()
-
                     """因为网站的原因，必须刷新多次页面，否则会报错，故不能删除或者合并以下等待和刷新代码"""
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
-
                     # 重置Yes3和No3价格为0.00
                     yes3_price_entry.delete(0, tk.END)
                     yes3_price_entry.insert(0, "0.00")
                     no3_price_entry.delete(0, tk.END)
                     no3_price_entry.insert(0, "0.00")
-                    
                     # 设置No4价格为0.55
                     no4_price_entry = self.no_frame.grid_slaves(row=8, column=1)[0]
                     no4_price_entry.delete(0, tk.END)
                     no4_price_entry.insert(0, "0.55")
-                    
                     # 增加交易次数
                     self.trade_count += 1
                     # 发送交易邮件
@@ -2185,19 +2125,15 @@ class CryptoTrader:
                     """因为网站的原因，必须刷新多次页面，否则会报错，故不能删除或者合并以下等待和刷新代码"""
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                    
                     # 重置Yes3和No3价格为0.00
@@ -2210,8 +2146,6 @@ class CryptoTrader:
                     yes4_price_entry = self.yes_frame.grid_slaves(row=8, column=1)[0]
                     yes4_price_entry.delete(0, tk.END)
                     yes4_price_entry.insert(0, "0.55")
-                    
-                    
                     # 增加交易次数
                     self.trade_count += 1
                     # 发送交易邮件
@@ -2221,8 +2155,6 @@ class CryptoTrader:
                         amount=0.00,
                         trade_count=self.trade_count
                     )
-                    
-                
         except ValueError as e:
             self.logger.error(f"价格转换错误: {str(e)}")
         except Exception as e:
@@ -2234,7 +2166,6 @@ class CryptoTrader:
         try:
             if not self.driver:
                 raise Exception("浏览器连接丢失")
-                
             # 获取当前Yes和No价格
             prices = self.driver.execute_script("""
                 function getPrices() {
@@ -2260,13 +2191,11 @@ class CryptoTrader:
             if prices['yes'] is not None and prices['no'] is not None:
                 yes_price = float(prices['yes']) / 100
                 no_price = float(prices['no']) / 100
-                
                 # 获取Yes4和No4的价格输入框
                 yes4_price_entry = self.yes_frame.grid_slaves(row=8, column=1)[0]
                 no4_price_entry = self.no_frame.grid_slaves(row=8, column=1)[0]
                 yes4_target = float(yes4_price_entry.get())
                 no4_target = float(no4_price_entry.get())
-                
                 # 检查Yes4价格匹配
                 if abs(yes4_target - yes_price) < 0.0001 and yes4_target > 0:
                     self.logger.info("Yes 4价格匹配，执行自动交易")
@@ -2280,19 +2209,15 @@ class CryptoTrader:
                     """因为网站的原因，必须刷新多次页面，否则会报错，故不能删除或者合并以下等待和刷新代码"""
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     
                     # 重置Yes4和No4价格为0.00
@@ -2306,7 +2231,6 @@ class CryptoTrader:
                     no5_price_entry.delete(0, tk.END)
                     no5_price_entry.insert(0, "0.55")
 
-                    
                     # 增加交易次数
                     self.trade_count += 1
                     # 发送交易邮件
@@ -2316,12 +2240,9 @@ class CryptoTrader:
                         amount=0.00,
                         trade_count=self.trade_count
                     )
-                    
-                
                 # 检查No4价格匹配
                 elif abs(no4_target - no_price) < 0.0001 and no4_target > 0:
                     self.logger.info("No 4价格匹配，执行自动交易")
-                    
                     # 执行交易操作
                     self.buy_no_button.invoke()
                     time.sleep(0.5)
@@ -2333,19 +2254,15 @@ class CryptoTrader:
 
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
 
                     # 买了 NO 后要刷新页面
@@ -2361,8 +2278,6 @@ class CryptoTrader:
                     yes5_price_entry.delete(0, tk.END)
                     yes5_price_entry.insert(0, "0.55")
 
-                   
-                    
                     # 增加交易次数
                     self.trade_count += 1
                     # 发送交易邮件
@@ -2429,19 +2344,15 @@ class CryptoTrader:
                     self._handle_metamask_popup()
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
 
                     # 重置Yes5和No5价格为0.00
@@ -2476,19 +2387,15 @@ class CryptoTrader:
 
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
                     # 等待3秒
                     time.sleep(3)
-                    # 再次刷新页面
                     self.driver.refresh()
 
                     # 重置Yes5和No5价格为0.00
@@ -2557,33 +2464,27 @@ class CryptoTrader:
                     """因为网站的原因，必须刷新多次页面，否则会报错，故不能删除或者合并以下等待和刷新代码"""
                     # 等待5秒
                     time.sleep(3)
-                    # 刷新页面
                     self.driver.refresh()
                     # 等待5秒
                     time.sleep(3)
-                    # 刷新页面
                     self.driver.refresh()
                     # 等待5秒
                     time.sleep(3)
-                    # 刷新页面
                     self.driver.refresh()
                     # 等待5秒
                     time.sleep(3)
-                    # 刷新页面
                     self.driver.refresh()
                     # 等待5秒
                     time.sleep(3)
-                    # 刷新页面
                     self.driver.refresh()
                     # 等待5秒
                     time.sleep(3)
-                    # 刷新页面
                     self.driver.refresh()
 
                     # 发送交易邮件 - 卖出YES
                     self.send_trade_email(
                         trade_type="Sell Yes Final",
-                        price=yes_price,
+                        price=0.0,
                         amount=0.0,  # 改为0.0,让函数内部计算金额
                         trade_count=7
                     )
@@ -2605,7 +2506,7 @@ class CryptoTrader:
                     # 发送交易邮件 - 卖出NO
                     self.send_trade_email(
                         trade_type="Sell No Final",
-                        price=no_price,
+                        price=0.0,
                         amount=0.0,  # 改为0.0,让函数内部计算金额
                         trade_count=8
                     )
@@ -2658,47 +2559,39 @@ class CryptoTrader:
                     """因为网站的原因，必须刷新多次页面，否则会报错，故不能删除或者合并以下等待和刷新代码"""
                     # 等待5秒
                     time.sleep(3)
-                    # 刷新页面
                     self.driver.refresh()
                     # 等待5秒
                     time.sleep(3)
-                    # 刷新页面
                     self.driver.refresh()
                     # 等待5秒
                     time.sleep(3)
-                    # 刷新页面
                     self.driver.refresh()
                     # 等待5秒
                     time.sleep(3)
-                    # 刷新页面
                     self.driver.refresh()
                     # 等待5秒
                     time.sleep(3)
-                    # 刷新页面
                     self.driver.refresh()
                     # 等待5秒
                     time.sleep(3)
-                    # 刷新页面
                     self.driver.refresh()
 
-                     # 卖完 NO 后卖 YES点击Positions-Sell-Yes按钮
+                    # 卖完 NO 后卖 YES点击Positions-Sell-Yes按钮
                     self.position_sell_yes_button.invoke()
                     time.sleep(1)
                     # 点击Sell-卖出按钮
                     self.sell_profit_button.invoke()
                     # 等待5秒
                     time.sleep(3)
-                    # 刷新页面
                     self.driver.refresh()
                     # 等待5秒
                     time.sleep(3)
-                    # 刷新页面
                     self.driver.refresh()
 
                     # 发送交易邮件 - 卖出NO
                     self.send_trade_email(
                         trade_type="Sell No Final",
-                        price=no_price,
+                        price=0.0,
                         amount=0.0,  # 改为0.0,让函数内部计算金额
                         trade_count=7
                     )
@@ -2716,7 +2609,7 @@ class CryptoTrader:
                     # 发送交易邮件 - 卖出YES
                     self.send_trade_email(
                         trade_type="Sell Yes Final",
-                        price=yes_price,
+                        price=0.0,
                         amount=0.0,  # 改为0.0,让函数内部计算金额
                         trade_count=8
                     )
